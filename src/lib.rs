@@ -23,7 +23,6 @@ pub enum AppError {
 
 pub trait App {
     fn init(&mut self);
-    fn paint(&mut self, graphics: &mut Graphics);
     fn on_event(&mut self, event: &Event) -> EventResult;
 
     fn run(&mut self) -> Result<(), AppError> {
