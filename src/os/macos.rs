@@ -1,81 +1,51 @@
-use cocoa::{
-    appkit::{
-        NSApp, NSApplication, NSApplicationActivateIgnoringOtherApps,
-        NSApplicationActivationPolicyRegular, NSRunningApplication,
-    },
-    base::{id, nil},
-    foundation::NSAutoreleasePool,
-};
+use cacao::macos::{Alert, App as NSApp, AppDelegate};
 
-use crate::AppError;
+use crate::{dialog::DialogResult, AppError};
+
+struct OSXAppDelegate;
+
+impl AppDelegate for OSXAppDelegate {
+    fn did_finish_launching(&self) {
+        NSApp::activate();
+    }
+}
 
 pub struct OSXApp {
-    pool: id,
-    app_handle: id,
-    current_app: id,
+    app: NSApp<OSXAppDelegate>,
 }
 
 impl OSXApp {
     pub fn new() -> Result<Self, AppError> {
-        let pool = unsafe {
-            let handle = NSAutoreleasePool::new(nil);
-
-            if handle == nil {
-                return Err(AppError::AllocFail("failed to allocate NSAutoreleasePool"));
-            }
-
-            handle
-        };
-
-        let app_handle = unsafe {
-            let handle = NSApp();
-
-            if handle == nil {
-                return Err(AppError::AllocFail("failed to allocate NSApp"));
-            }
-
-            handle
-        };
-
-        let current_app = unsafe {
-            let handle = NSRunningApplication::currentApplication(nil);
-
-            if handle == nil {
-                return Err(AppError::AllocFail(
-                    "failed to allocate NSRunningApplication",
-                ));
-            }
-
-            handle
-        };
-
-        unsafe {
-            if !app_handle.setActivationPolicy_(NSApplicationActivationPolicyRegular) {
-                return Err(AppError::InitFail("failed to initialize activation policy"));
-            }
-
-            if !current_app.activateWithOptions_(NSApplicationActivateIgnoringOtherApps) {
-                return Err(AppError::InitFail(
-                    "failed to initialize activation options",
-                ));
-            }
-        }
-
         Ok(Self {
-            pool,
-            app_handle,
-            current_app,
+            app: NSApp::new("", OSXAppDelegate),
         })
     }
 
-    pub fn run(&mut self) -> Result<(), AppError> {
-        unsafe {
-            self.app_handle.run();
-        }
+    pub fn run(&self) -> Result<(), AppError> {
+        self.app.run();
 
         Ok(())
     }
 }
 
-// TODO: Implement this
-pub struct OSXDialog {}
+#[derive(Default)]
+pub struct OSXDialog {
+    title: &'static str,
+    message: &'static str,
+}
+
+impl OSXDialog {
+    pub fn set_title(&mut self, title: &'static str) {
+        self.title = title;
+    }
+
+    pub fn set_message(&mut self, message: &'static str) {
+        self.message = message;
+    }
+
+    pub fn show(&self) -> DialogResult {
+        Alert::new(self.title, self.message).show();
+
+        DialogResult::Ok
+    }
+}

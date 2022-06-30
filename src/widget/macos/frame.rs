@@ -1,92 +1,48 @@
-use crate::AppError;
+use crate::{
+    widget::{Frame, Widget},
+    AppError,
+};
 
-use cocoa::{
-    appkit::{NSBackingStoreBuffered, NSWindow, NSWindowStyleMask},
-    base::{id, nil, NO},
-    foundation::{NSAutoreleasePool, NSPoint, NSRect, NSSize, NSString},
+use cacao::{
+    geometry::Rect,
+    macos::window::{Window, WindowConfig, WindowStyle, WindowToolbarStyle},
+    view::View,
 };
 
 pub struct OSXFrame {
-    window: id,
+    window: Window,
+    content_view: View,
 }
 
 impl OSXFrame {
     pub fn new(title: &'static str) -> Result<Self, AppError> {
-        let window = unsafe {
-            let handle = NSWindow::alloc(nil);
+        let window = Window::new(WindowConfig {
+            style: WindowStyle::Titled.into(),
+            initial_dimensions: Rect::new(0.0, 0.0, Frame::DEFAULT_WIDTH, Frame::DEFAULT_HEIGHT),
+            defer: true,
+            toolbar_style: WindowToolbarStyle::Automatic,
+        });
 
-            if handle == nil {
-                return Err(AppError::AllocFail("failed to allocate NSWindow"));
-            }
+        let content_view = View::new();
 
-            let handle = handle.initWithContentRect_styleMask_backing_defer_(
-                NSRect::new(NSPoint::new(0., 0.), NSSize::new(200., 200.)),
-                NSWindowStyleMask::NSTitledWindowMask,
-                NSBackingStoreBuffered,
-                NO,
-            );
+        window.set_title(title);
+        window.set_content_view(&content_view);
 
-            if handle == nil {
-                return Err(AppError::InitFail("failed to initialize NSWindow"));
-            }
+        window.show();
 
-            let handle = handle.autorelease();
-
-            if handle == nil {
-                return Err(AppError::InitFail(
-                    "failed to enable autorelease for NSWindow",
-                ));
-            }
-
-            handle
-        };
-
-        let title = unsafe {
-            let handle = NSString::alloc(nil);
-
-            if handle == nil {
-                return Err(AppError::AllocFail("failed to allocate NSString"));
-            }
-
-            let handle = handle.init_str(title);
-
-            if handle == nil {
-                return Err(AppError::AllocFail("failed to initialize NSString"));
-            }
-
-            handle
-        };
-
-        unsafe {
-            window.cascadeTopLeftFromPoint_(NSPoint::new(20., 20.));
-            window.center();
-
-            window.setTitle_(title);
-            window.makeKeyAndOrderFront_(nil);
-        }
-
-        Ok(OSXFrame { window })
+        Ok(OSXFrame {
+            window,
+            content_view,
+        })
     }
 
-    pub fn set_title(&mut self, title: &'static str) {
-        let title = unsafe {
-            let handle = NSString::alloc(nil);
+    pub fn set_title(&self, title: &'static str) {
+        self.window.set_title(title);
+    }
 
-            if handle == nil {
-                return;
-            }
-
-            let handle = handle.init_str(title);
-
-            if handle == nil {
-                return;
-            }
-
-            handle
-        };
-
-        unsafe {
-            self.window.setTitle_(title);
+    pub fn add_widget(&self, widget: &dyn Widget) {
+        if let Some(native_widget) = widget.native_widget() {
+            native_widget.add_to_view(&self.content_view);
         }
     }
 }
