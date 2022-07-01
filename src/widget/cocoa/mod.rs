@@ -2,9 +2,10 @@ mod button;
 mod frame;
 
 pub use button::*;
-use cacao::view::View;
 pub use frame::*;
 
-pub trait OSXWidget {
+use cacao::view::View;
+
+pub trait CocoaWidget {
     fn add_to_view(&self, view: &View);
 }

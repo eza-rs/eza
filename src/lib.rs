@@ -1,10 +1,7 @@
 mod os;
 
-#[cfg(target_os = "macos")]
-pub(crate) use os::macos;
-
-#[cfg(target_os = "macos")]
-use os::macos::OSXApp;
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+pub(crate) use os::cocoa::{self, CocoaApp as NativeApp};
 
 pub mod dialog;
 pub mod event;
@@ -26,8 +23,7 @@ pub trait App {
     fn on_event(&mut self, event: &Event) -> EventResult;
 
     fn run(&mut self, app_id: &'static str) -> Result<(), AppError> {
-        #[cfg(target_os = "macos")]
-        let native_app = OSXApp::new(app_id).unwrap();
+        let native_app = NativeApp::new(app_id).unwrap();
 
         self.init();
 

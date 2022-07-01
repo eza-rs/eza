@@ -8,19 +8,18 @@ pub enum MouseButton {
     Middle,
 }
 
-pub struct MouseData {
-    pub x: i32,
-    pub y: i32,
-}
+pub struct MousePosition(i32, i32);
 
 pub enum Event {
+    Load,
+    Unload,
     KeyUp(KeyCode),
     KeyDown(KeyCode),
     KeyPress(KeyCode),
     MouseUp(MouseButton),
     MouseDown(MouseButton),
     MousePress(MouseButton),
-    MouseMove(MouseData),
+    MouseMove(MousePosition),
 }
 
 pub enum EventResult {

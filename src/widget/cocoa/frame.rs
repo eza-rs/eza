@@ -9,12 +9,12 @@ use cacao::{
     view::View,
 };
 
-pub struct OSXFrame {
+pub struct CocoaFrame {
     window: Window,
     content_view: View,
 }
 
-impl OSXFrame {
+impl CocoaFrame {
     pub fn new(title: &'static str) -> Result<Self, AppError> {
         let window = Window::new(WindowConfig {
             style: WindowStyle::Titled.into(),
@@ -30,7 +30,7 @@ impl OSXFrame {
 
         window.show();
 
-        Ok(OSXFrame {
+        Ok(Self {
             window,
             content_view,
         })

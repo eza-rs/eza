@@ -2,13 +2,13 @@ use crate::AppError;
 
 use cacao::{button::Button as NSButton, layout::Layout};
 
-use super::OSXWidget;
+use super::CocoaWidget;
 
-pub struct OSXButton {
+pub struct CocoaButton {
     button: NSButton,
 }
 
-impl OSXButton {
+impl CocoaButton {
     pub fn new(text: &'static str) -> Result<Self, AppError> {
         let button = NSButton::new(text);
 
@@ -20,7 +20,7 @@ impl OSXButton {
     }
 }
 
-impl OSXWidget for OSXButton {
+impl CocoaWidget for CocoaButton {
     fn add_to_view(&self, view: &cacao::view::View) {
         view.add_subview(&self.button);
     }

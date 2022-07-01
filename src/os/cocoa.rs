@@ -2,22 +2,22 @@ use cacao::macos::{Alert, App as NSApp, AppDelegate};
 
 use crate::{dialog::DialogResult, AppError};
 
-struct OSXAppDelegate;
+struct CocoaAppDelegate;
 
-impl AppDelegate for OSXAppDelegate {
+impl AppDelegate for CocoaAppDelegate {
     fn did_finish_launching(&self) {
         NSApp::activate();
     }
 }
 
-pub struct OSXApp {
-    app: NSApp<OSXAppDelegate>,
+pub struct CocoaApp {
+    app: NSApp<CocoaAppDelegate>,
 }
 
-impl OSXApp {
+impl CocoaApp {
     pub fn new(app_id: &'static str) -> Result<Self, AppError> {
         Ok(Self {
-            app: NSApp::new(app_id, OSXAppDelegate),
+            app: NSApp::new(app_id, CocoaAppDelegate),
         })
     }
 
@@ -29,12 +29,12 @@ impl OSXApp {
 }
 
 #[derive(Default)]
-pub struct OSXDialog {
+pub struct CocoaDialog {
     title: &'static str,
     message: &'static str,
 }
 
-impl OSXDialog {
+impl CocoaDialog {
     pub fn set_title(&mut self, title: &'static str) {
         self.title = title;
     }

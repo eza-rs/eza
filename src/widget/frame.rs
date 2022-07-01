@@ -1,13 +1,12 @@
 use super::{Event, EventResult, Graphics, Widget};
 use crate::AppError;
 
-#[cfg(target_os = "macos")]
-use super::macos::OSXFrame;
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+use super::cocoa::CocoaFrame as NativeFrame;
 
 pub struct Frame {
     // native handles
-    #[cfg(target_os = "macos")]
-    native_frame: OSXFrame,
+    native_frame: NativeFrame,
 }
 
 impl Frame {
@@ -16,8 +15,7 @@ impl Frame {
     pub const DEFAULT_HEIGHT: f64 = 480.0;
 
     pub fn new() -> Result<Self, AppError> {
-        #[cfg(target_os = "macos")]
-        let native_frame = OSXFrame::new(Frame::DEFAULT_TITLE);
+        let native_frame = NativeFrame::new(Frame::DEFAULT_TITLE);
 
         match native_frame {
             Ok(native_frame) => Ok(Self { native_frame }),

@@ -1,11 +1,11 @@
 mod button;
 mod frame;
 
-#[cfg(target_os = "macos")]
-pub mod macos;
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+pub mod cocoa;
 
-#[cfg(target_os = "macos")]
-use self::macos::OSXWidget as NativeWidget;
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+use self::cocoa::CocoaWidget as NativeWidget;
 
 use super::{Event, EventResult, Graphics};
 

@@ -1,5 +1,5 @@
-#[cfg(target_os = "macos")]
-use super::macos::OSXDialog;
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+use super::cocoa::CocoaDialog as NativeDialog;
 
 pub enum DialogResult {
     Ok,
@@ -9,8 +9,7 @@ pub enum DialogResult {
 /// WARNING: This currently cannot be used inside `init`!
 #[derive(Default)]
 pub struct DialogBuilder {
-    #[cfg(target_os = "macos")]
-    native_dialog: OSXDialog,
+    native_dialog: NativeDialog,
 }
 
 impl DialogBuilder {

@@ -1,12 +1,11 @@
 use super::{Event, EventResult, Graphics, Widget};
 use crate::AppError;
 
-#[cfg(target_os = "macos")]
-use super::macos::OSXButton;
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+use super::cocoa::CocoaButton as NativeButton;
 
 pub struct Button {
-    #[cfg(target_os = "macos")]
-    native_button: OSXButton,
+    native_button: NativeButton,
 }
 
 impl Button {
@@ -14,8 +13,7 @@ impl Button {
     pub const DEFAULT_HEIGHT: f64 = 50.0;
 
     pub fn new(text: &'static str) -> Result<Self, AppError> {
-        #[cfg(target_os = "macos")]
-        let native_button = OSXButton::new(text);
+        let native_button = NativeButton::new(text);
 
         match native_button {
             Ok(native_button) => Ok(Self { native_button }),
