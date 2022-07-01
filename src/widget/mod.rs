@@ -8,7 +8,10 @@ pub mod cocoa;
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use self::cocoa::CocoaWidget as NativeWidget;
 
-use super::{Event, EventResult, Graphics};
+use crate::{
+    event::{Event, EventResult},
+    graphics::Graphics,
+};
 
 pub use button::Button;
 pub use frame::Frame;

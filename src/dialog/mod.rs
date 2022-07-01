@@ -1,5 +1,10 @@
+// platform modules
 #[cfg(any(target_os = "macos", target_os = "ios"))]
-use super::cocoa::CocoaDialog as NativeDialog;
+pub(crate) mod cocoa;
+
+// native dialog
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+use cocoa::CocoaDialog as NativeDialog;
 
 pub enum DialogResult {
     Ok,

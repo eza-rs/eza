@@ -1,5 +1,9 @@
-use super::{Event, EventResult, Graphics, Widget};
-use crate::AppError;
+use crate::{
+    event::{Event, EventResult},
+    graphics::Graphics,
+    widget::Widget,
+    AppError,
+};
 
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use super::cocoa::CocoaButton as NativeButton;
