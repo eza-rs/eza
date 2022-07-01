@@ -14,6 +14,10 @@ impl OSXButton {
 
         Ok(Self { button })
     }
+
+    pub fn set_action<F: Fn() + Send + Sync + 'static>(&mut self, action: F) {
+        self.button.set_action(action);
+    }
 }
 
 impl OSXWidget for OSXButton {

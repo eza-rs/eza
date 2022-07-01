@@ -22,6 +22,10 @@ impl Button {
             Err(err) => Err(err),
         }
     }
+
+    pub fn set_action<F: Fn() + Send + Sync + 'static>(&mut self, action: F) {
+        self.native_button.set_action(action);
+    }
 }
 
 impl Widget for Button {
