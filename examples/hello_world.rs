@@ -21,10 +21,10 @@ impl MyApp {
 impl App for MyApp {
     fn init(&mut self) {
         self.frame.set_title("MyApp");
-        
+
         self.frame.add_widget(&self.label);
     }
-    
+
     fn on_event(&mut self, _: &Event) -> EventResult {
         EventResult::None
     }

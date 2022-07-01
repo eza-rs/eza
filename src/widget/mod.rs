@@ -1,6 +1,7 @@
 mod button;
 mod frame;
 mod label;
+mod textbox;
 
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 pub mod cocoa;
@@ -16,6 +17,7 @@ use crate::{
 pub use button::Button;
 pub use frame::Frame;
 pub use label::Label;
+pub use textbox::TextBox;
 
 pub trait Widget {
     fn paint(&mut self, g: &mut Graphics);

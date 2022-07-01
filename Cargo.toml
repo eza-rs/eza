@@ -13,7 +13,7 @@ path = "examples/hello_world.rs"
 windows = "0.38.0"
 
 [target.'cfg(any(target_os = "macos", target_os = "ios"))'.dependencies]
-cacao = { git = "https://github.com/eza-rs/cacao" }
+cacao = { git = "https://github.com/eza-rs/cacao", features = ["webview"] }
 
 [target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]
 gtk = "0.15.5"

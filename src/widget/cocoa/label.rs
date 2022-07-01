@@ -1,8 +1,7 @@
 use crate::AppError;
 
-use cacao::{layout::Layout, text::Label as NSLabel};
-
 use super::CocoaWidget;
+use cacao::{layout::Layout, text::Label as NSLabel};
 
 pub struct CocoaLabel {
     label: NSLabel,
