@@ -4,10 +4,13 @@ use crate::app::AppError;
 
 struct CocoaAppDelegate;
 
+// TODO: Implement application events
 impl AppDelegate for CocoaAppDelegate {
     fn did_finish_launching(&self) {
         NSApp::activate();
     }
+
+    fn will_terminate(&self) {}
 }
 
 pub struct CocoaApp {
