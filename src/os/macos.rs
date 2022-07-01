@@ -15,9 +15,9 @@ pub struct OSXApp {
 }
 
 impl OSXApp {
-    pub fn new() -> Result<Self, AppError> {
+    pub fn new(app_id: &'static str) -> Result<Self, AppError> {
         Ok(Self {
-            app: NSApp::new("", OSXAppDelegate),
+            app: NSApp::new(app_id, OSXAppDelegate),
         })
     }
 

@@ -25,9 +25,9 @@ pub trait App {
     fn init(&mut self);
     fn on_event(&mut self, event: &Event) -> EventResult;
 
-    fn run(&mut self) -> Result<(), AppError> {
+    fn run(&mut self, app_id: &'static str) -> Result<(), AppError> {
         #[cfg(target_os = "macos")]
-        let native_app = OSXApp::new().unwrap();
+        let native_app = OSXApp::new(app_id).unwrap();
 
         self.init();
 
