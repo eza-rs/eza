@@ -6,6 +6,14 @@ pub(crate) mod cocoa;
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use cocoa::CocoaApp as NativeApp;
 
+// platform modules
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+pub(crate) mod gtk;
+
+//native app
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+use self::gtk::GtkApp as NativeApp;
+
 pub mod event;
 
 use event::{Event, EventResult};
@@ -20,12 +28,23 @@ pub enum AppError {
 pub trait App {
     fn init(&mut self);
     fn on_event(&mut self, event: &Event) -> EventResult;
+}
 
-    fn run(&mut self, app_id: &'static str) -> Result<(), AppError> {
-        let native_app = NativeApp::new(app_id).unwrap();
+pub struct AppDelegate<T: App + Default> {
+    native_app: NativeApp,
+    app: T,
+}
 
-        self.init();
+impl<T: App + Default> AppDelegate<T> {
+    pub fn new(app_id: &'static str) -> Self {
+        Self {
+            native_app: NativeApp::new(app_id).unwrap(),
+            app: T::default(),
+        }
+    }
 
-        native_app.run()
+    pub fn run(&mut self) -> Result<(), AppError> {
+        self.app.init();
+        self.native_app.run()
     }
 }

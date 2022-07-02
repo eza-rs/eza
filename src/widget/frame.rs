@@ -1,12 +1,10 @@
-use crate::{
-    event::{Event, EventResult},
-    graphics::Graphics,
-    widget::Widget,
-    AppError,
-};
+use crate::{widget::Widget, AppError};
 
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use super::cocoa::CocoaFrame as NativeFrame;
+
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+use super::gtk::GtkFrame as NativeFrame;
 
 pub struct Frame {
     // native handles
@@ -33,13 +31,5 @@ impl Frame {
 
     pub fn add_widget(&self, widget: &dyn Widget) {
         self.native_frame.add_widget(widget);
-    }
-}
-
-impl Widget for Frame {
-    fn paint(&mut self, _: &mut Graphics) {}
-
-    fn on_event(&mut self, _: &Event) -> EventResult {
-        EventResult::None
     }
 }

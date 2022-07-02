@@ -6,6 +6,12 @@ pub(crate) mod cocoa;
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use cocoa::CocoaDialog as NativeDialog;
 
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+pub(crate) mod gtk;
+
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+use self::gtk::GtkDialog as NativeDialog;
+
 pub enum DialogResult {
     Ok,
     Error,

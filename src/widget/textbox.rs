@@ -1,12 +1,15 @@
 use crate::{
     event::{Event, EventResult},
     graphics::Graphics,
-    widget::Widget,
+    widget::{Widget, NativeWidget},
     AppError,
 };
 
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use super::cocoa::CocoaTextBox as NativeTextBox;
+
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+use super::gtk::GtkTextBox as NativeTextBox;
 
 pub struct TextBox {
     native_textbox: NativeTextBox,
@@ -38,7 +41,7 @@ impl Widget for TextBox {
         EventResult::None
     }
 
-    fn native_widget(&self) -> Option<&dyn super::cocoa::CocoaWidget> {
+    fn native_widget(&self) -> Option<&dyn NativeWidget> {
         Some(&self.native_textbox)
     }
 }

@@ -1,12 +1,15 @@
 use crate::{
     event::{Event, EventResult},
     graphics::Graphics,
-    widget::Widget,
+    widget::{Widget, NativeWidget},
     AppError,
 };
 
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use super::cocoa::CocoaButton as NativeButton;
+
+#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+use super::gtk::GtkButton as NativeButton;
 
 pub struct Button {
     native_button: NativeButton,
@@ -37,7 +40,7 @@ impl Widget for Button {
         EventResult::None
     }
 
-    fn native_widget(&self) -> Option<&dyn super::NativeWidget> {
+    fn native_widget(&self) -> Option<&dyn NativeWidget> {
         Some(&self.native_button)
     }
 }

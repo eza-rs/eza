@@ -1,7 +1,7 @@
 use eza::{
     event::{Event, EventResult},
     widget::{Frame, Label},
-    App, AppError,
+    App, AppDelegate, AppError,
 };
 
 struct MyApp {
@@ -9,8 +9,8 @@ struct MyApp {
     label: Label,
 }
 
-impl MyApp {
-    fn new() -> Self {
+impl Default for MyApp {
+    fn default() -> Self {
         Self {
             frame: Frame::new().unwrap(),
             label: Label::new("Hello, world!").unwrap(),
@@ -23,6 +23,7 @@ impl App for MyApp {
         self.frame.set_title("MyApp");
 
         self.frame.add_widget(&self.label);
+
     }
 
     fn on_event(&mut self, _: &Event) -> EventResult {
@@ -31,5 +32,5 @@ impl App for MyApp {
 }
 
 fn main() -> Result<(), AppError> {
-    MyApp::new().run("me.undersquire.HelloWorld")
+    AppDelegate::<MyApp>::new("me.eza-rs.HelloWorld").run()
 }
