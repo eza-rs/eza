@@ -1,3 +1,5 @@
+// TODO: Document when events are finished
+
 pub enum KeyCode {
     Space,
 }

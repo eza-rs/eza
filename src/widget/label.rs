@@ -1,35 +1,77 @@
 use crate::{
     event::{Event, EventResult},
     graphics::Graphics,
-    widget::{Widget, NativeWidget},
+    widget::{NativeWidget, Widget},
     AppError,
 };
 
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use super::cocoa::CocoaLabel as NativeLabel;
 
-#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+#[cfg(any(
+    target_os = "linux",
+    target_os = "freebsd",
+    target_os = "dragonfly",
+    target_os = "openbsd",
+    target_os = "netbsd"
+))]
 use super::gtk::GtkLabel as NativeLabel;
 
+/// A label [`Widget`].
 pub struct Label {
     native_label: NativeLabel,
 }
 
 impl Label {
+    /// Creates a new [`Label`].
+    ///
+    /// ### Arguments:
+    ///
+    /// * `text`: The label's text.
+    ///
+    /// # Examples
+    ///
+    /// Basic usage:
+    ///
+    /// ```rust
+    /// let label = Label::new("Hello World!")?;
+    /// ```
     pub fn new(text: &'static str) -> Result<Self, AppError> {
-        let native_label = NativeLabel::new(text);
+        let native_label = NativeLabel::new(text)?;
 
-        match native_label {
-            Ok(native_label) => Ok(Self { native_label }),
-            Err(err) => Err(err),
-        }
+        Ok(Self { native_label })
     }
 
+    /// Gets the [`Label`]'s text.
+    ///
+    /// # Examples
+    ///
+    /// Basic usage:
+    ///
+    /// ```rust
+    /// let label = Label::new("Hello World!")?;
+    /// assert_eq!(label.get_text(), "Hello World!".to_string());
+    /// ```
     pub fn get_text(&self) -> String {
         self.native_label.get_text()
     }
 
-    pub fn set_text(&self, text: &'static str) {
+    /// Sets the [`Label`]'s text.
+    ///
+    /// ### Arguments:
+    ///
+    /// * `text`: The label's text.
+    ///  
+    /// # Examples
+    ///
+    /// Basic usage:
+    ///
+    /// ```rust
+    /// let mut label = Label::new("Foo")?;
+    /// label.set_text("Bar");
+    /// assert_eq!(label.get_text(), "Bar".to_string());
+    /// ```
+    pub fn set_text(&mut self, text: &'static str) {
         self.native_label.set_text(text);
     }
 }

@@ -9,10 +9,22 @@ pub mod cocoa;
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use self::cocoa::CocoaWidget as NativeWidget;
 
-#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+#[cfg(any(
+    target_os = "linux",
+    target_os = "freebsd",
+    target_os = "dragonfly",
+    target_os = "openbsd",
+    target_os = "netbsd"
+))]
 pub mod gtk;
 
-#[cfg(any(target_os = "linux", target_os = "freebsd", target_os = "dragonfly", target_os = "openbsd", target_os = "netbsd"))]
+#[cfg(any(
+    target_os = "linux",
+    target_os = "freebsd",
+    target_os = "dragonfly",
+    target_os = "openbsd",
+    target_os = "netbsd"
+))]
 use self::gtk::GtkWidget as NativeWidget;
 
 use crate::{

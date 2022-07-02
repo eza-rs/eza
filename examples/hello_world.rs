@@ -1,19 +1,19 @@
 use eza::{
     event::{Event, EventResult},
-    widget::{Frame, Label},
+    widget::{Frame, TextBox},
     App, AppDelegate, AppError,
 };
 
 struct MyApp {
     frame: Frame,
-    label: Label,
+    txt: TextBox,
 }
 
 impl Default for MyApp {
     fn default() -> Self {
         Self {
             frame: Frame::new().unwrap(),
-            label: Label::new("Hello, world!").unwrap(),
+            txt: TextBox::new().unwrap(),
         }
     }
 }
@@ -22,8 +22,7 @@ impl App for MyApp {
     fn init(&mut self) {
         self.frame.set_title("MyApp");
 
-        self.frame.add_widget(&self.label);
-
+        self.frame.add_widget(&self.txt);
     }
 
     fn on_event(&mut self, _: &Event) -> EventResult {

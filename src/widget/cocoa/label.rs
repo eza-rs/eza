@@ -20,7 +20,7 @@ impl CocoaLabel {
         self.label.get_text()
     }
 
-    pub fn set_text(&self, text: &'static str) {
+    pub fn set_text(&mut self, text: &'static str) {
         self.label.set_text(text);
     }
 }
