@@ -1,19 +1,19 @@
 use eza::{
     event::{Event, EventResult},
-    widget::{Frame, TextBox},
+    widget::{Frame, Label},
     App, AppDelegate, AppError,
 };
 
 struct MyApp {
     frame: Frame,
-    txt: TextBox,
+    txt: Label,
 }
 
 impl Default for MyApp {
     fn default() -> Self {
         Self {
             frame: Frame::new().unwrap(),
-            txt: TextBox::new().unwrap(),
+            txt: Label::new("Hello, world!").unwrap(),
         }
     }
 }
@@ -31,5 +31,5 @@ impl App for MyApp {
 }
 
 fn main() -> Result<(), AppError> {
-    AppDelegate::<MyApp>::new("me.eza-rs.HelloWorld").run()
+    AppDelegate::<MyApp>::new("io.github.eza-rs.HelloWorld").run()
 }

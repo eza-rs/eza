@@ -41,7 +41,7 @@ impl Button {
     /// Basic usage:
     ///
     /// ```rust
-    /// let button = Button::new("Hello World!")?;
+    /// let button = Button::new("Hello, world!")?;
     /// ```
     pub fn new(text: &'static str) -> Result<Self, AppError> {
         let native_button = NativeButton::new(text)?;
@@ -61,6 +61,7 @@ impl Button {
     ///
     /// ```rust
     /// let button = Button::new("Foo")?;
+    ///
     /// button.set_action(|| println!("Bar"));
     /// ```
     pub fn set_action<F: Fn() + Send + Sync + 'static>(&mut self, action: F) {

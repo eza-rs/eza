@@ -34,7 +34,7 @@ impl Label {
     /// Basic usage:
     ///
     /// ```rust
-    /// let label = Label::new("Hello World!")?;
+    /// let label = Label::new("Hello, world!")?;
     /// ```
     pub fn new(text: &'static str) -> Result<Self, AppError> {
         let native_label = NativeLabel::new(text)?;
@@ -49,7 +49,8 @@ impl Label {
     /// Basic usage:
     ///
     /// ```rust
-    /// let label = Label::new("Hello World!")?;
+    /// let label = Label::new("Hello, world!")?;
+    ///
     /// assert_eq!(label.get_text(), "Hello World!".to_string());
     /// ```
     pub fn get_text(&self) -> String {
@@ -68,7 +69,9 @@ impl Label {
     ///
     /// ```rust
     /// let mut label = Label::new("Foo")?;
+    ///
     /// label.set_text("Bar");
+    ///
     /// assert_eq!(label.get_text(), "Bar".to_string());
     /// ```
     pub fn set_text(&mut self, text: &'static str) {

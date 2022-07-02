@@ -37,6 +37,7 @@ impl Color {
     }
 }
 
+/// TODO: Document [`Graphics`] once the API is implemented.
 pub struct Graphics {
     color: Color,
 }

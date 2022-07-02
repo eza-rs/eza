@@ -24,6 +24,7 @@ pub(crate) mod gtk;
 ))]
 use self::gtk::GtkDialog as NativeDialog;
 
+/// **NOTE:** Currently unused!
 pub enum DialogResult {
     Ok,
     Error,
@@ -45,7 +46,7 @@ impl DialogBuilder {
     /// Basic usage:
     ///
     /// ```rust
-    /// let dialog = DialogBuilder::new();
+    /// DialogBuilder::new();
     /// ```
     pub fn new() -> Self {
         Self {
@@ -64,13 +65,7 @@ impl DialogBuilder {
     /// Basic usage:
     ///
     /// ```rust
-    /// let mut dialog = DialogBuilder::new();
-    /// dialog.title("Foo");
-    /// ```
-    ///
-    /// ```rust
-    /// let mut dialog = DialogBuilder::new();
-    /// let new_dialog = dialog.title("Hello World");
+    /// DialogBuilder::new().title("Hello, world!").show();
     /// ```
     pub fn title(&mut self, title: &'static str) -> &mut Self {
         self.native_dialog.set_title(title);
@@ -88,13 +83,7 @@ impl DialogBuilder {
     /// Basic usage:
     ///
     /// ```rust
-    /// let mut dialog = DialogBuilder::new();
-    /// dialog.message("Bar");
-    /// ```
-    ///
-    /// ```rust
-    /// let mut dialog = DialogBuilder::new();
-    /// let new_dialog = dialog.message("Hello World");
+    /// DialogBuilder::new().message("Hello, world!").show();
     /// ```
     pub fn message(&mut self, message: &'static str) -> &mut Self {
         self.native_dialog.set_message(message);
@@ -108,8 +97,7 @@ impl DialogBuilder {
     /// Basic usage:
     ///
     /// ```rust
-    /// let dialog = DialogBuilder::new();
-    /// dialog.show();
+    /// DialogBuilder::new().show();
     /// ```
     pub fn show(&self) -> DialogResult {
         self.native_dialog.show()

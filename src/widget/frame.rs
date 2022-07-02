@@ -23,7 +23,7 @@ impl Frame {
     pub const DEFAULT_WIDTH: f64 = 640.0;
     pub const DEFAULT_HEIGHT: f64 = 480.0;
 
-    /// Creates a new [`AppDelegate`] for an [`App`] of type `T`.
+    /// Creates a new [`Frame`].
     ///
     /// # Errors
     ///
@@ -71,8 +71,9 @@ impl Frame {
     /// Basic usage:
     ///
     /// ```rust
-    /// let mut button = Button::new()?;
     /// let mut frame = Frame::new()?;
+    /// let mut button = Button::new("Click me!")?;
+    ///
     /// frame.add_widget(&button);
     /// ```
     pub fn add_widget(&self, widget: &dyn Widget) {

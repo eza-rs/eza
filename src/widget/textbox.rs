@@ -46,7 +46,9 @@ impl TextBox {
     ///
     /// ```rust
     /// let mut textbox = TextBox::new()?;
+    ///
     /// textbox.set_text("Foo");
+    ///
     /// assert_eq!(textbox.get_value(), "Foo".to_string());
     /// ```
     pub fn get_value(&self) -> String {
@@ -65,6 +67,7 @@ impl TextBox {
     ///
     /// ```rust
     /// let mut textbox = TextBox::new()?;
+    ///
     /// textbox.set_text("Foo");
     /// assert_eq!(textbox.get_value(), "Foo".to_string());
     /// ```

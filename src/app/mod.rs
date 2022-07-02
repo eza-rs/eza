@@ -30,25 +30,27 @@ pub mod event;
 
 use event::{Event, EventResult};
 
+/// Abstracts over general errors from the underlying backends.
 #[derive(Debug)]
 pub enum AppError {
+    /// If you receive this error value, it means the underlying backend error
+    /// is undocumented and/or no [`AppError`] value/translation exists for it yet.
+    /// Please make an issue on the GitHub repository with more details.
     Unknown,
+    /// Something regarding calls to the underlying backend failed (see error message).
     InitFail(&'static str),
+    /// The underlying backend failed to allocate (see error message).
     AllocFail(&'static str),
 }
 
 /// An application.
 pub trait App {
-    /// Initializes the [`App`].
+    /// Invoked by the [`AppDelegate`].
     ///
-    /// # Examples
-    ///
-    /// Basic usage:
-    ///
-    /// ```rust
-    /// let mut app = MyApp::default();
-    /// app.init();
-    /// ```
+    /// **WARNING:** This function is purely for initializing data fields of
+    /// your [`App`] object. Certain features (such as [`DialogBuilder`]) can not
+    /// be used within this function, as the underlying backend is not guarenteed to be
+    /// fully initialized yet.
     fn init(&mut self);
 
     // TODO: Document on_event when events are finished
@@ -95,7 +97,6 @@ impl<T: App + Default> AppDelegate<T> {
     /// let result = delegate.run();
     /// ```
     pub fn run(&mut self) -> Result<(), AppError> {
-        str::parse::<u64>("").unwrap();
         self.app.init();
         self.native_app.run()
     }
