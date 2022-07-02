@@ -1,35 +1,16 @@
 use eza::{
-    event::{Event, EventResult},
     widget::{Frame, Label},
-    App, AppDelegate, AppError,
+	eza_app, AppError
 };
 
-struct MyApp {
-    frame: Frame,
-    txt: Label,
-}
+#[eza_app("io.github.eza-rs.HelloWorld")]
+fn my_app() -> Result<(), AppError>
+{
+    let mut frame = Frame::new().unwrap();
+    let label = Label::new("Hello, world!").unwrap();
 
-impl Default for MyApp {
-    fn default() -> Self {
-        Self {
-            frame: Frame::new().unwrap(),
-            txt: Label::new("Hello, world!").unwrap(),
-        }
-    }
-}
+	frame.set_title("My App");
+	frame.add_widget(&label);
 
-impl App for MyApp {
-    fn init(&mut self) {
-        self.frame.set_title("MyApp");
-
-        self.frame.add_widget(&self.txt);
-    }
-
-    fn on_event(&mut self, _: &Event) -> EventResult {
-        EventResult::None
-    }
-}
-
-fn main() -> Result<(), AppError> {
-    AppDelegate::<MyApp>::new("io.github.eza-rs.HelloWorld").run()
+	Ok(())
 }

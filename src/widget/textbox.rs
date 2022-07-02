@@ -71,7 +71,7 @@ impl TextBox {
     /// textbox.set_text("Foo");
     /// assert_eq!(textbox.get_value(), "Foo".to_string());
     /// ```
-    pub fn set_text(&self, text: &'static str) {
+    pub fn set_text(&mut self, text: &'static str) {
         self.native_textbox.set_text(text);
     }
 }

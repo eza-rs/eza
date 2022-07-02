@@ -34,14 +34,14 @@ impl GtkFrame {
         }
     }
 
-    pub fn set_title(&self, title: &'static str) {
+    pub fn set_title(&mut self, title: &'static str) {
         unsafe {
             let title = CString::new(title).unwrap();
             gtk_window_set_title(self.0 as *mut GtkWindow, title.as_ptr());
         }
     }
 
-    pub fn add_widget(&self, widget: &dyn Widget) {
+    pub fn add_widget(&mut self, widget: &dyn Widget) {
         if let Some(native_widget) = widget.native_widget() {
             unsafe {
                 native_widget.add_to_container(self.0 as *mut GtkContainer);

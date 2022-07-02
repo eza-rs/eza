@@ -56,7 +56,7 @@ impl Frame {
     /// let mut frame = Frame::new()?;
     /// frame.set_title("Foo");
     /// ```
-    pub fn set_title(&self, title: &'static str) {
+    pub fn set_title(&mut self, title: &'static str) {
         self.native_frame.set_title(title);
     }
 
@@ -76,7 +76,7 @@ impl Frame {
     ///
     /// frame.add_widget(&button);
     /// ```
-    pub fn add_widget(&self, widget: &dyn Widget) {
+    pub fn add_widget(&mut self, widget: &dyn Widget) {
         self.native_frame.add_widget(widget);
     }
 }

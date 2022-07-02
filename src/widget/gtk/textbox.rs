@@ -39,7 +39,7 @@ impl GtkTextBox {
         }
     }
 
-    pub fn set_text(&self, text: &'static str) {
+    pub fn set_text(&mut self, text: &'static str) {
         let str = CString::new(text).unwrap();
 
         unsafe {

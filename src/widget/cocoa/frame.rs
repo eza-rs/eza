@@ -36,11 +36,11 @@ impl CocoaFrame {
         })
     }
 
-    pub fn set_title(&self, title: &'static str) {
+    pub fn set_title(&mut self, title: &'static str) {
         self.window.set_title(title);
     }
 
-    pub fn add_widget(&self, widget: &dyn Widget) {
+    pub fn add_widget(&mut self, widget: &dyn Widget) {
         if let Some(native_widget) = widget.native_widget() {
             native_widget.add_to_view(&self.content_view);
         }

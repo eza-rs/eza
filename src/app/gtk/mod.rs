@@ -10,15 +10,17 @@ impl GtkApp {
             Ok(_) => {
                 set_prgname(Some(app_id));
                 Ok(GtkApp {})
-            }
+            },
 
             Err(_) => Err(AppError::Unknown),
         }
     }
 
-    pub fn run(&self) -> Result<(), AppError> {
-        main();
+    pub fn run<F: Fn() -> Result<(), AppError> + Send + Sync + 'static>(&self, f: F) -> Result<(), AppError> {
+		f()?;
 
-        Ok(())
+        main();
+		
+		Ok(())
     }
 }

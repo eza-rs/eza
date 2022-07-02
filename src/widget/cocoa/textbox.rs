@@ -18,7 +18,7 @@ impl CocoaTextBox {
         self.textbox.get_value()
     }
 
-    pub fn set_text(&self, text: &'static str) {
+    pub fn set_text(&mut self, text: &'static str) {
         self.textbox.set_text(text);
     }
 }
