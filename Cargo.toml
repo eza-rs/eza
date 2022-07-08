@@ -9,9 +9,6 @@ edition = "2021"
 name = "hello_world"
 path = "examples/hello_world.rs"
 
-[dependencies]
-eza_proc_macros = { path = "eza_proc_macros" }
-
 [target.'cfg(target_os = "windows")'.dependencies]
 windows = "0.38.0"
 

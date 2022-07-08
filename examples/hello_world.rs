@@ -1,16 +1,18 @@
 use eza::{
     dialog::DialogBuilder,
     widget::{Button, Frame},
-    AppError,
+    App, AppError,
 };
 
-#[eza::eza_app("io.github.eza-rs.HelloWorld")]
 fn main() -> Result<(), AppError> {
-    let mut frame = Frame::new()?;
+    let app = App::new("io.github.eza-rs.HelloWorld")?;
+	
+	let mut frame = Frame::new()?;
 
     frame.set_title(file!());
 
-    let button = Button::new("Hello, world!")?;
+    let mut button = Button::new("Hello, world!")?;
+	button.set_action(|| println!("You pressed the button!"));
 
     frame.add_widget(button);
 
@@ -19,5 +21,5 @@ fn main() -> Result<(), AppError> {
         .message("Hello, world!")
         .show();
 
-    Ok(())
+	app.run()
 }

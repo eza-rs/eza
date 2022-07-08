@@ -16,12 +16,9 @@ impl GtkApp {
         }
     }
 
-    pub fn run<F: Fn() -> Result<(), AppError> + Send + Sync + 'static>(
+    pub fn run(
         &self,
-        f: F,
     ) -> Result<(), AppError> {
-        f()?;
-
         main();
 
         Ok(())

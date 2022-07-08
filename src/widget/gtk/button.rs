@@ -1,7 +1,7 @@
 use crate::AppError;
 
 use gtk::ffi::{
-    gtk_button_new_with_label, gtk_container_add, gtk_widget_show_all, GtkContainer, GtkWidget,
+    gtk_button_new_with_label, gtk_widget_destroy, gtk_container_add, gtk_widget_show_all, GtkContainer, GtkWidget,
 };
 use std::ffi::CString;
 
@@ -22,6 +22,13 @@ impl GtkButton {
             gtk_signal_connect!(self.0, "clicked", gtk_callback(|_| action()));
         }
     }
+}
+
+impl Drop for GtkButton
+{
+	fn drop(&mut self) {
+		unsafe { gtk_widget_destroy(self.0); }
+	}
 }
 
 impl NativeWidget for GtkButton {

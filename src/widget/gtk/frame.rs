@@ -3,7 +3,7 @@ use std::ffi::CString;
 use gtk::{
     ffi::{
         gtk_widget_show, gtk_widget_show_all, gtk_window_new, gtk_window_set_title, GtkContainer,
-        GtkWidget, GtkWindow, GTK_WINDOW_TOPLEVEL,
+        GtkWidget, GtkWindow, GTK_WINDOW_TOPLEVEL, gtk_widget_destroy,
     },
     main_quit,
 };
@@ -49,4 +49,11 @@ impl GtkFrame {
             }
         }
     }
+}
+
+impl Drop for GtkFrame
+{
+	fn drop(&mut self) {
+		unsafe { gtk_widget_destroy(self.0); }
+	}
 }

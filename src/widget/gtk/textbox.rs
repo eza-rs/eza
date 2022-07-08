@@ -5,7 +5,7 @@ use gtk::{
     ffi::{
         gtk_container_add, gtk_text_buffer_get_bounds, gtk_text_buffer_get_text,
         gtk_text_buffer_set_text, gtk_text_view_get_buffer, gtk_text_view_new, gtk_widget_show_all,
-        GtkTextIter, GtkTextView, GtkWidget,
+        GtkTextIter, GtkTextView, GtkWidget, gtk_widget_destroy,
     },
     glib::ffi::g_free,
 };
@@ -47,6 +47,13 @@ impl GtkTextBox {
             gtk_text_buffer_set_text(buf, str.as_ptr(), -1);
         }
     }
+}
+
+impl Drop for GtkTextBox
+{
+	fn drop(&mut self) {
+		unsafe { gtk_widget_destroy(self.0); }
+	}
 }
 
 impl NativeWidget for GtkTextBox {

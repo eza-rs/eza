@@ -3,7 +3,7 @@ use crate::AppError;
 use super::GtkWidget as NativeWidget;
 use gtk::ffi::{
     gtk_container_add, gtk_label_get_text, gtk_label_new, gtk_label_set_text, gtk_widget_show,
-    GtkContainer, GtkLabel as GLabel, GtkWidget,
+    GtkContainer, GtkLabel as GLabel, GtkWidget, gtk_widget_destroy,
 };
 
 use std::ffi::{CStr, CString};
@@ -33,6 +33,13 @@ impl GtkLabel {
             gtk_label_set_text(self.0 as *mut GLabel, text.as_ptr());
         }
     }
+}
+
+impl Drop for GtkLabel
+{
+	fn drop(&mut self) {
+		unsafe { gtk_widget_destroy(self.0); }
+	}
 }
 
 impl NativeWidget for GtkLabel {

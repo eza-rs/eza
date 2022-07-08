@@ -24,10 +24,9 @@ pub(crate) mod gtk;
     target_os = "openbsd",
     target_os = "netbsd"
 ))]
-pub use self::gtk::GtkApp as NativeApp;
+use self::gtk::GtkApp as NativeApp;
 
 pub mod event;
-pub use eza_proc_macros::eza_app;
 
 /// Abstracts over general errors from the underlying backends.
 #[derive(Debug)]
@@ -40,4 +39,19 @@ pub enum AppError {
     InitFail(&'static str),
     /// The underlying backend failed to allocate (see error message).
     AllocFail(&'static str),
+}
+
+pub struct App(NativeApp);
+
+impl App
+{
+	pub fn new(app_id: &'static str) -> Result<Self, AppError>
+	{
+		Ok(Self(NativeApp::new(app_id)?))
+	}
+
+	pub fn run(&self) -> Result<(), AppError>
+	{
+		self.0.run()
+	}
 }
