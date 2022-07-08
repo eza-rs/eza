@@ -13,8 +13,8 @@ use super::cocoa::CocoaFrame as NativeFrame;
 use super::gtk::GtkFrame as NativeFrame;
 
 pub struct Frame {
-    // native handles
     native_frame: NativeFrame,
+    widgets: Vec<Box<dyn Widget>>,
 }
 
 /// A window
@@ -39,7 +39,10 @@ impl Frame {
     pub fn new() -> Result<Self, AppError> {
         let native_frame = NativeFrame::new(Frame::DEFAULT_TITLE)?;
 
-        Ok(Self { native_frame })
+        Ok(Self {
+            native_frame,
+            widgets: Vec::new(),
+        })
     }
 
     /// Sets the title of the [`Frame`].
@@ -76,7 +79,8 @@ impl Frame {
     ///
     /// frame.add_widget(&button);
     /// ```
-    pub fn add_widget(&mut self, widget: &dyn Widget) {
-        self.native_frame.add_widget(widget);
+    pub fn add_widget<T: Widget + 'static>(&mut self, widget: T) {
+        self.native_frame.add_widget(&widget);
+        self.widgets.push(Box::new(widget));
     }
 }

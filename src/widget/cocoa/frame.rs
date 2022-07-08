@@ -4,8 +4,7 @@ use crate::{
 };
 
 use cacao::{
-    geometry::Rect,
-    macos::window::{Window, WindowConfig, WindowStyle, WindowToolbarStyle},
+    macos::window::{Window, WindowConfig, WindowStyle},
     view::View,
 };
 
@@ -16,12 +15,16 @@ pub struct CocoaFrame {
 
 impl CocoaFrame {
     pub fn new(title: &'static str) -> Result<Self, AppError> {
-        let window = Window::new(WindowConfig {
-            style: WindowStyle::Titled.into(),
-            initial_dimensions: Rect::new(0.0, 0.0, Frame::DEFAULT_WIDTH, Frame::DEFAULT_HEIGHT),
-            defer: true,
-            toolbar_style: WindowToolbarStyle::Automatic,
-        });
+        let mut window_config = WindowConfig::default();
+
+        window_config.set_styles(&[
+            WindowStyle::Closable,
+            WindowStyle::Miniaturizable,
+            WindowStyle::Titled,
+        ]);
+        window_config.set_initial_dimensions(0.0, 0.0, Frame::DEFAULT_WIDTH, Frame::DEFAULT_HEIGHT);
+
+        let window = Window::new(window_config);
 
         let content_view = View::new();
 

@@ -26,11 +26,8 @@ pub(crate) mod gtk;
 ))]
 pub use self::gtk::GtkApp as NativeApp;
 
-pub use eza_proc_macros::eza_app;
-
 pub mod event;
-
-use event::{Event, EventResult};
+pub use eza_proc_macros::eza_app;
 
 /// Abstracts over general errors from the underlying backends.
 #[derive(Debug)]

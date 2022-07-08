@@ -11,9 +11,7 @@ pub fn eza_app(args: TokenStream, input: TokenStream) -> TokenStream {
     if let [NestedMeta::Lit(Lit::Str(id))] = id.as_slice() {
         TokenStream::from(quote! {
             fn main() -> Result<(), eza::AppError> {
-                let app = eza::NativeApp::new(#id)?;
-
-                app.run({ #user_main #fname })
+                eza::NativeApp::new(#id, { #user_main #fname })?.run()
             }
         })
     } else {

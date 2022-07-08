@@ -1,16 +1,23 @@
 use eza::{
-    widget::{Frame, Label},
-	eza_app, AppError
+    dialog::DialogBuilder,
+    widget::{Button, Frame},
+    AppError,
 };
 
-#[eza_app("io.github.eza-rs.HelloWorld")]
-fn my_app() -> Result<(), AppError>
-{
-    let mut frame = Frame::new().unwrap();
-    let label = Label::new("Hello, world!").unwrap();
+#[eza::eza_app("io.github.eza-rs.HelloWorld")]
+fn main() -> Result<(), AppError> {
+    let mut frame = Frame::new()?;
 
-	frame.set_title("My App");
-	frame.add_widget(&label);
+    frame.set_title(file!());
 
-	Ok(())
+    let button = Button::new("Hello, world!")?;
+
+    frame.add_widget(button);
+
+    DialogBuilder::new()
+        .title("Message")
+        .message("Hello, world!")
+        .show();
+
+    Ok(())
 }
