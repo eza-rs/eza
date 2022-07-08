@@ -43,15 +43,12 @@ pub enum AppError {
 
 pub struct App(NativeApp);
 
-impl App
-{
-	pub fn new(app_id: &'static str) -> Result<Self, AppError>
-	{
-		Ok(Self(NativeApp::new(app_id)?))
-	}
+impl App {
+    pub fn new(app_id: &'static str) -> Result<Self, AppError> {
+        Ok(Self(NativeApp::new(app_id)?))
+    }
 
-	pub fn run(&self) -> Result<(), AppError>
-	{
-		self.0.run()
-	}
+    pub fn run(&self) -> Result<(), AppError> {
+        self.0.run()
+    }
 }

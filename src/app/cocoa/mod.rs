@@ -2,27 +2,23 @@ use cacao::macos::{App as NSApp, AppDelegate};
 
 use crate::app::AppError;
 
-struct CocoaAppDelegate<F: Fn() -> Result<(), AppError> + Send + Sync + 'static> {
-    f: F,
-}
+struct CocoaAppDelegate;
 
 // TODO: Implement application events
-impl<F: Fn() -> Result<(), AppError> + Send + Sync + 'static> AppDelegate for CocoaAppDelegate<F> {
+impl AppDelegate for CocoaAppDelegate {
     fn did_finish_launching(&self) {
         NSApp::activate();
-
-        (self.f)().unwrap();
     }
 }
 
-pub struct CocoaApp<F: Fn() -> Result<(), AppError> + Send + Sync + 'static> {
-    app: NSApp<CocoaAppDelegate<F>>,
+pub struct CocoaApp {
+    app: NSApp<CocoaAppDelegate>,
 }
 
-impl<F: Fn() -> Result<(), AppError> + Send + Sync + 'static> CocoaApp<F> {
-    pub fn new(app_id: &'static str, f: F) -> Result<Self, AppError> {
+impl CocoaApp {
+    pub fn new(app_id: &'static str) -> Result<Self, AppError> {
         Ok(Self {
-            app: NSApp::new(app_id, CocoaAppDelegate { f }),
+            app: NSApp::new(app_id, CocoaAppDelegate),
         })
     }
 
